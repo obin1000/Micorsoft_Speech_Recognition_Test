@@ -1,16 +1,22 @@
-\documentclass[12pt]{article}
-\usepackage[utf8]{inputenc}
+\documentclass{article}
 \usepackage[english]{babel}
-
+\usepackage{amsmath}
+% use geometry to set size to A4 and set margins around the document
+\usepackage[a4paper, total={6in, 8in}]{geometry}
 
 \begin{document}
 
 \title{Microsoft Azure Speech Recognition}
 \author{Robin Vonk - 500775219 \\
 		Michel Rummens - 500 \\}
-\date{}
+\date{15/12/2019}
 
+% Distance between the two text columns
+\setlength{\columnsep}{30px}
+
+% Set text in two columns
 \twocolumn[
+% Disable two columns for title page and abstract
 \begin{@twocolumnfalse}
 \begin{center}
     \maketitle
@@ -34,21 +40,80 @@
 
 \tableofcontents
 \section{Introduction}
-Introduction, which contains a description of your application and your null
-hypothesis
+Introduction, which contains a description of your application and your null \\
+This paper will discuss the correctness of the Microsoft Azure Speech Recognition algorithm. This paper will not discuss the working nor any technical aspect of the algorithm. This paper will use a test set of audio fragments, run these tests through the algorithm and use the output for calculations.
+
+
+
 \subsection{Main question}
-TODO: Forumlate a main question
+TODO: Formulate a main question
+
+\subsection{Hypothesis}
+The speech to text algorithm of Microsoft is one of the best tested algorithm in this field\cite{Veton}. For this reason it is expected that this algorithm will do really well. It's results should little to not differ from original transcript of the audio files. 
 
 \section{Experiment}
 Experimental setup, which describes how you conduct your experiment
 \subsection{Resources used}
+Microsoft Azure Speech Recognition
 \subsection{Method}
 
 \section{Results}
 Results, which contains the data you gathered during the experiment and the
-figures and statistics you used for the interpretation of these data
+figures and statistics you used for the interpretation of these data \\
+\\
+Speech recognition applications are usually evaluated by:
+
+\begin{itemize}
+    \item real time factor (RTF), the time needed to get result, i.e. the time of output minus the time of input. RTF depends on:
+    \begin{itemize}
+        \item used hardware (NB networks)
+        \item length of the input sentence
+        \item used vocabulary
+    \end{itemize}
+    \item word error rate (WER), the edit distance between two strings is the minimum number (or weighted sum) of insertions, deletions and substitutions required to transform one string into the other. For measuring WER you need:
+    \begin{itemize}
+        \item S = Substitutions: word is replaced
+        \item D = Deletions: word is missed out
+        \item I = Insertions: word is added
+        \item C = Corrects: word matches
+        \item N = Number of words in reference sentence
+    \end{itemize}
+\end{itemize}
+
+
 \subsection{Data}
 \subsection{Calculations}
+    
+    Word Error Rate: 
+    \begin{center}
+    $ WER = \frac{S + D + I}{N}$ \\
+    \end{center} 
+    
+    Word Recognition Rate: 
+    \begin{center}
+    $ WRR = 1 - WER = \frac{C - I}{N}$ \\
+    $ NBC =N - (S + D)$ \\
+    \end{center} 
+    
+    Word Correct Rate: 
+    \begin{center}
+    $ WCR = \frac{C}{N}$ \\
+    \end{center} 
+    
+    Precision: 
+    \begin{center}
+    $ Precision = \frac{relevant\ documents \cap retrieved\ documents}{retrieved\ documents} = \frac{|R_i \cap A_i|}{|A_i|} $ \\
+    \end{center} 
+    
+    Recall : 
+    \begin{center}
+    $ Recall = \frac{relevant\ documents \cap retrieved\ documents}{relevant\ documents} = \frac{|R_i \cap A_i|}{|R_i|} $ \\
+    \end{center} 
+    
+    F-score:
+    \begin{center}
+    $ Recall = \frac{2 \times \pi_i \times \rho_i}{\pi + \rho_i} $\\
+    \end{center} 
 
 \subsection{Graphs}
 
