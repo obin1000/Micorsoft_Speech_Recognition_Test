@@ -2,6 +2,10 @@
 Speech recognition samples for the Microsoft Cognitive Services Speech SDK
 """
 import os
+import configparser
+config = configparser.ConfigParser()
+config.read('../config.ini')
+
 try:
     import azure.cognitiveservices.speech as speechsdk
 except ImportError:
@@ -13,8 +17,8 @@ except ImportError:
 
 # Set up the subscription info for the Speech Service:
 # Replace with your own subscription key and service region (e.g., "westus").
-REGION = 'westeurope'
-KEY = ''
+KEY = config['azure']['SubscriptionKey']
+REGION = config['azure']['ServiceRegion']
 CURRENTDIR = os.path.dirname(__file__)
 AUDIOLOCATION = os.path.join(CURRENTDIR, '..', 'resources', 'audio')
 
