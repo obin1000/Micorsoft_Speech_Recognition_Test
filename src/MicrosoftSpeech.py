@@ -5,6 +5,8 @@ import datetime
 import os
 import configparser
 import csv
+import time
+
 import numpy
 
 config = configparser.ConfigParser()
@@ -91,17 +93,17 @@ class SpeechToText:
 
             if transcription:
 
-                start = datetime.datetime.now()
+                start = time.time()
                 recognized = self.speech_recognize_once_from_file(file).text
-                end = datetime.datetime.now()
+                end = time.time()
 
-                real_time_factor = end - start
-                metrics[file]['real_time_factor'] = str(real_time_factor)
+                passed_seconds = float(end - start)
+                metrics[file]['real_time_factor'] = round((passed_seconds / len(file)), 3)
                 metrics[file]['word_error_rate'] = self.wer(transcription[0], recognized)[0]
                 metrics[file]['word_correct_rate'] = self.wer(transcription[0], recognized)[1]
                 metrics[file]['transcription_used'] = transcription[1]
-                print(recognized, "\n", transcription[0])
-                print(metrics)
+                print("Recognized: " + recognized + "\nTranscription: " + transcription[0])
+                print(metrics[file])
             else:
                 metrics[file] = 'No transcription was found for this audio file.'
 
