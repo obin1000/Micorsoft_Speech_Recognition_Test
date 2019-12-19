@@ -71,81 +71,137 @@ class SpeechToText:
         return audio_files
 
     def load_transcriptions_into_converter(self, transcription_file, delimiter):
+        """
+        loads transcriptions from file into memory
+        :param transcription_file: path to the transcription file
+        :param delimiter: delimiter to delimit csv columns
+        """
+
         with open(transcription_file) as csv_file:
             read_csv = csv.reader(csv_file, delimiter=delimiter)
             for row in read_csv:
                 if row[0] and row[0] != 'File':
                     self.transcriptions[row[0]] = row[1]
-        print(self.transcriptions)
 
     def calculate_metrics(self):
+        metrics = {}
         for file in self.audio_files:
             transcription = self.retrieve_matching_transcription(file)
+            metrics[file] = {}
 
             if transcription:
+
                 start = datetime.datetime.now()
                 recognized = self.speech_recognize_once_from_file(file).text
                 end = datetime.datetime.now()
 
                 real_time_factor = end - start
-                print(real_time_factor)
+                metrics[file]['real_time_factor'] = str(real_time_factor)
+                metrics[file]['word_error_rate'] = self.wer(transcription[0], recognized)
+                metrics[file]['transcription_used'] = transcription[1]
+                print(recognized, "\n", transcription[0])
+                print(metrics)
+            else:
+                metrics[file] = 'No transcription was found for this audio file.'
 
-                print("Word error rate", self.wer(transcription.split(), recognized.split()))
-                print(recognized, "\n", transcription)
+    def wer(self, ref, hyp, debug=False):
+        r = ref.split()
+        h = hyp.split()
+        # costs will holds the costs, like in the Levenshtein distance algorithm
+        costs = [[0 for inner in range(len(h) + 1)] for outer in range(len(r) + 1)]
+        # backtrace will hold the operations we've done.
+        # so we could later backtrace, like the WER algorithm requires us to.
+        backtrace = [[0 for inner in range(len(h) + 1)] for outer in range(len(r) + 1)]
 
+        OP_OK = 0
+        OP_SUB = 1
+        OP_INS = 2
+        OP_DEL = 3
 
-    def wer(self, r, h):
-        """
-        Calculation of WER with Levenshtein distance.
+        DEL_PENALTY = 1  # Tact
+        INS_PENALTY = 1  # Tact
+        SUB_PENALTY = 1  # Tact
+        # First column represents the case where we achieve zero
+        # hypothesis words by deleting all reference words.
+        for i in range(1, len(r) + 1):
+            costs[i][0] = DEL_PENALTY * i
+            backtrace[i][0] = OP_DEL
 
-        Works only for iterables up to 254 elements (uint8).
-        O(nm) time ans space complexity.
-
-        Parameters
-        ----------
-        r : list
-        h : list
-
-        Returns
-        -------
-        int
-
-        Examples
-        --------
-        >> wer("who is there".split(), "is there".split())
-        1
-        >> wer("who is there".split(), "".split())
-        3
-        >> wer("".split(), "who is there".split())
-        3
-        """
-
-        d = numpy.zeros((len(r) + 1) * (len(h) + 1), dtype=numpy.uint8)
-        d = d.reshape((len(r) + 1, len(h) + 1))
-        for i in range(len(r) + 1):
-            for j in range(len(h) + 1):
-                if i == 0:
-                    d[0][j] = j
-                elif j == 0:
-                    d[i][0] = i
+        # First row represents the case where we achieve the hypothesis
+        # by inserting all hypothesis words into a zero-length reference.
+        for j in range(1, len(h) + 1):
+            costs[0][j] = INS_PENALTY * j
+            backtrace[0][j] = OP_INS
 
         # computation
         for i in range(1, len(r) + 1):
             for j in range(1, len(h) + 1):
                 if r[i - 1] == h[j - 1]:
-                    d[i][j] = d[i - 1][j - 1]
+                    costs[i][j] = costs[i - 1][j - 1]
+                    backtrace[i][j] = OP_OK
                 else:
-                    substitution = d[i - 1][j - 1] + 1
-                    insertion = d[i][j - 1] + 1
-                    deletion = d[i - 1][j] + 1
-                    d[i][j] = min(substitution, insertion, deletion)
+                    substitutionCost = costs[i - 1][j - 1] + SUB_PENALTY  # penalty is always 1
+                    insertionCost = costs[i][j - 1] + INS_PENALTY  # penalty is always 1
+                    deletionCost = costs[i - 1][j] + DEL_PENALTY  # penalty is always 1
 
-        return d[len(r)][len(h)]
+                    costs[i][j] = min(substitutionCost, insertionCost, deletionCost)
+                    if costs[i][j] == substitutionCost:
+                        backtrace[i][j] = OP_SUB
+                    elif costs[i][j] == insertionCost:
+                        backtrace[i][j] = OP_INS
+                    else:
+                        backtrace[i][j] = OP_DEL
+
+        # back trace though the best route:
+        i = len(r)
+        j = len(h)
+        numSub = 0
+        numDel = 0
+        numIns = 0
+        numCor = 0
+        if debug:
+            print("OP\tREF\tHYP")
+            lines = []
+        while i > 0 or j > 0:
+            if backtrace[i][j] == OP_OK:
+                numCor += 1
+                i -= 1
+                j -= 1
+                if debug:
+                    lines.append("OK\t" + r[i] + "\t" + h[j])
+            elif backtrace[i][j] == OP_SUB:
+                numSub += 1
+                i -= 1
+                j -= 1
+                if debug:
+                    lines.append("SUB\t" + r[i] + "\t" + h[j])
+            elif backtrace[i][j] == OP_INS:
+                numIns += 1
+                j -= 1
+                if debug:
+                    lines.append("INS\t" + "****" + "\t" + h[j])
+            elif backtrace[i][j] == OP_DEL:
+                numDel += 1
+                i -= 1
+                if debug:
+                    lines.append("DEL\t" + r[i] + "\t" + "****")
+        if debug:
+            lines = reversed(lines)
+            for line in lines:
+                print(line)
+            print("Ncor " + str(numCor))
+            print("Nsub " + str(numSub))
+            print("Ndel " + str(numDel))
+            print("Nins " + str(numIns))
+            return (numSub + numDel + numIns) / (float)(len(r))
+
+        wer = round((numSub + numDel + numIns) / (float)(len(r)), 3)
+        return wer
 
     def retrieve_matching_transcription(self, audio_file):
         for transcription in self.transcriptions:
             if audio_file.count(transcription):
-                return self.transcriptions[transcription]
+                return self.transcriptions[transcription], transcription
 
     def speech_recognize_once_from_file(self, file):
         """
