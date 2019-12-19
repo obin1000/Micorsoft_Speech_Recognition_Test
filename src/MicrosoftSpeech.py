@@ -97,7 +97,8 @@ class SpeechToText:
 
                 real_time_factor = end - start
                 metrics[file]['real_time_factor'] = str(real_time_factor)
-                metrics[file]['word_error_rate'] = self.wer(transcription[0], recognized)
+                metrics[file]['word_error_rate'] = self.wer(transcription[0], recognized)[0]
+                metrics[file]['word_correct_rate'] = self.wer(transcription[0], recognized)[1]
                 metrics[file]['transcription_used'] = transcription[1]
                 print(recognized, "\n", transcription[0])
                 print(metrics)
@@ -196,7 +197,8 @@ class SpeechToText:
             return (numSub + numDel + numIns) / (float)(len(r))
 
         wer = round((numSub + numDel + numIns) / (float)(len(r)), 3)
-        return wer
+        wcr = round((numCor / len(r)), 3)
+        return wer, wcr
 
     def retrieve_matching_transcription(self, audio_file):
         for transcription in self.transcriptions:
