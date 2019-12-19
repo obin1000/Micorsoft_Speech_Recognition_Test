@@ -93,16 +93,6 @@ class SpeechToText:
                 print("Word error rate", self.wer(transcription.split(), recognized.split()))
                 print(recognized, "\n", transcription)
 
-    def calculate_word_error_rate(self, recognized, transcription):
-        substitutions = deletions = insertions = corrects = number_of_words = 0
-        recognized = recognized.split()
-        transcription = transcription.split()
-
-        for i, item in enumerate(transcription):
-            if len(recognized) > i:
-                if transcription[i].lower() == recognized[i].lower():
-                    corrects += 1
-        print(corrects)
 
     def wer(self, r, h):
         """
