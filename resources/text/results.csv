@@ -1,0 +1,64 @@
+File;word_error_rate;word_correct_rate;real_time_factor;transcription_used
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/wristwatches_ronald.wav;0.5;0.667;0.019;wristwatches
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/technical_ronald.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/Palestine_gusav.wav;0.409;0.636;0.069;Palestine
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/Caffaro_ronald.wav;0.357;0.714;0.038;Caffaro
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/seashells_gustav.wav;0.0;1.0;0.02;seashells
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/dear_deer_gustav.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Raw/technical book_gustav.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/priority_inversion_ronald.wav;0.962;0.077;0.055;priority_inversion
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/coffee_gustav.wav;0.5;0.5;0.025;coffee
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Raw/History_todo_cut_gustav.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/scene_seen_gustav.wav;0.278;0.722;0.029;scene_seen
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/semaphore_vincent.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/submissive_inferior_vincent.wav;0.444;0.667;0.046;submissive_inferior
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/fanny_vincent_gustav.wav;0.714;0.429;0.023;fanny
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/coffee_vincent.wav;0.333;0.667;0.023;coffee
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/meet_meat_vincent.wav;0.867;0.2;0.022;meet_meat
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/technical_vincent.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/canner_ronald_gustav.wav;0.25;0.75;0.021;canner
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/seashells_ronald.wav;0.0;1.0;0.018;seashells
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/polling_ronald.wav;0.361;0.667;0.05;polling
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/mail_male_gustav.wav;0.529;0.471;0.022;mail_male
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/weak_week_ronald.wav;0.6;0.4;0.022;weak_week
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/fort_fight_gustav.wav;0.29;0.806;0.064;fort_fight
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/polling_vincent.wav;0.167;0.833;0.067;polling
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/priority_inversion_vincent.wav;0.962;0.077;0.042;priority_inversion
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/pest_ronald.wav;0.333;0.667;0.022;pest
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/weak_week_gustav.wav;0.267;0.733;0.028;weak_week
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/deer_dear_ronald.wav;0.643;0.357;0.021;deer_dear
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/Caffaro_gustav.wav;0.571;0.643;0.04;Caffaro
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/mail_male_ronald.wav;0.588;0.412;0.023;mail_male
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/Palestine_vincent.wav;0.364;0.682;0.045;Palestine
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/dear_dear_vincent.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Raw/tongue twisters_gustav.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/Palestine_ronald.wav;0.455;0.636;0.053;Palestine
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/short_story_vincent.wav;0.898;0.102;0.035;short_story
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/short_story_gustav.wav;0.748;0.252;0.055;short_story
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/submissive_inferior_gustav.wav;0.444;0.63;0.062;submissive_inferior
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/mail_male_vincent.wav;0.529;0.471;0.023;mail_male
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/scene_seen_ronald.wav;0.444;0.556;0.023;scene_seen
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/submissive_iferior_ronald.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/priotity inversion gustav.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/short_story_ronald.wav;0.756;0.244;0.062;short_story
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/scene_seen_vincent.wav;0.444;0.556;0.022;scene_seen
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/meet_meat_ronald.wav;0.6;0.4;0.023;meet_meat
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/weak_week_vincent.wav;1.067;0.0;0.038;weak_week
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/submissive_inferior_ronald.wav;0.704;0.296;0.034;submissive_inferior
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/pest_vincent.wav;0.167;0.833;0.023;pest
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/fort_fight_vincent.wav;0.645;0.355;0.023;fort_fight
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/meet_meat_gustav.wav;0.267;0.733;0.023;meet_meat
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/seashells_vincent.wav;0.0;1.0;0.02;seashells
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/wristwatches_vincent.wav;0.5;0.667;0.027;wristwatches
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/Palestine_vincentt.wav;0.364;0.682;0.044;Palestine
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/wristwatches_gustav.wav;0.667;0.667;0.027;wristwatches
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/canner_ronald.wav;0.0;1.0;0.022;canner
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/polling_gustav.wav;0.222;0.778;0.08;polling
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/coffee_ronald.wav;0.417;0.583;0.023;coffee
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/semaphore_ronald.wav;No transcription was found for this audio file.
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/canner_vincent.wav;0.333;0.667;0.031;canner
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/fanny_ronald.wav;0.714;0.429;0.025;fanny
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Books/Caffaro_vincent.wav;0.429;0.643;0.034;Caffaro
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/fanny_vincent.wav;0.286;0.714;0.026;fanny
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Tongue twisters/pest_gustav.wav;0.333;0.667;0.023;pest
+/home/obin1000/Documents/Micorsoft_Speech_Recognition_Test/src/../resources/audio/Homonyms/fort_fight_ronald.wav;0.677;0.323;0.024;fort_fight

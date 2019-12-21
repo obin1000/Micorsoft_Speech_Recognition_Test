@@ -29,7 +29,12 @@ AUDIOLOCATION = os.path.join(CURRENTDIR, '..', 'resources', 'audio')
 ENDPOINTURL = "wss://{}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1" \
               "?initialSilenceTimeoutMs={:d} "
 
-# Empty uses default
+TRANSSCRIPTFILE = '../resources/text/transcriptions.csv'
+RESULTFILE = '../resources/text/results.csv'
+
+CSVDELIMITER = ';'
+
+# Empty uses default language english
 RECOGNITIONLANGUAGE = ''
 initial_silence_timeout_ms = 15 * 1e3
 
@@ -86,13 +91,44 @@ class SpeechToText:
                 if row[0] and row[0] != 'File':
                     self.transcriptions[row[0]] = row[1]
 
+    def get_first_row(self, results):
+        first_row = ['File']
+        for file in results:
+            # Find the first occurrence with transcriptionon
+            if isinstance(results[file], list) or isinstance(results[file], dict):
+                for key in results[file]:
+                    first_row.append(key)
+                return first_row
+        return []
+
+    def save_results(self, results, delimiter):
+        with open(RESULTFILE, 'w', newline='') as csv_file:
+            writer = csv.writer(csv_file, delimiter=delimiter)
+            # Add first row with column information
+            writer.writerow(self.get_first_row(results))
+            for file in results:
+                # Always add the file as the first column
+                new_row = [file]
+                cur_data = results[file]
+                if isinstance(cur_data, list) or isinstance(cur_data, dict):
+                    for key in cur_data:
+                        value = cur_data.get(key)
+                        new_row.append(value)
+                else:
+                    new_row.append(cur_data)
+
+                writer.writerow(new_row)
+
     def calculate_metrics(self):
         metrics = {}
+
         for file in self.audio_files:
+
             transcription = self.retrieve_matching_transcription(file)
             metrics[file] = {}
 
             if transcription:
+                metrics[file]['transcription_used'] = transcription[1]
 
                 start = time.time()
                 recognized = self.speech_recognize_once_from_file(file).text
@@ -100,19 +136,21 @@ class SpeechToText:
 
                 passed_seconds = float(end - start)
                 metrics[file]['real_time_factor'] = round((passed_seconds / len(file)), 3)
-                metrics[file]['word_error_rate'] = self.wer(transcription[0], recognized)[0]
-                metrics[file]['word_correct_rate'] = self.wer(transcription[0], recognized)[1]
-                metrics[file]['transcription_used'] = transcription[1]
+
+                metrics[file]['word_error_rate'], metrics[file]['word_correct_rate'] = self.wer(transcription[0],
+                                                                                                recognized)
                 print("Recognized: " + recognized + "\nTranscription: " + transcription[0])
                 print(metrics[file])
             else:
                 metrics[file] = 'No transcription was found for this audio file.'
 
+        self.save_results(metrics, CSVDELIMITER)
+
     def wer(self, ref, hyp, debug=False):
         """
         Calculate the word error rate
-        :param ref:
-        :param hyp:
+        :param ref: The transcript of the audio
+        :param hyp: The recognized string from the algorithm
         :param debug: Log debug information. Default false
         :return: The word error rate
         :return: The word correct rate
@@ -242,6 +280,7 @@ class SpeechToText:
         """
         if (endpoint is None) and (silencetimeout is not None):
             endpoint = ENDPOINTURL.format(REGION, int(silencetimeout))
+
         # Configure the recognize algorithm
         speech_config = speechsdk.SpeechConfig(subscription=KEY,
                                                endpoint=endpoint,
@@ -268,5 +307,5 @@ class SpeechToText:
 
 if __name__ == "__main__":
     converter = SpeechToText(AUDIOLOCATION)
-    converter.load_transcriptions_into_converter('../resources/text/transcriptions.csv', ';')
+    converter.load_transcriptions_into_converter(TRANSSCRIPTFILE, CSVDELIMITER)
     converter.calculate_metrics()
