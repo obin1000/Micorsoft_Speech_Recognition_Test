@@ -1,4 +1,8 @@
-
 # Intellij
 .idea/
+
+# Config
+config.ini
+
+# Azure services
 Micorsoft_Speech_Recognition_Test.iml
