@@ -1,20 +1,24 @@
 File;Transcript
-fort_fight; Just the three of you are going to be holding the fort tonight. He fought many battles with the early Labor party in Lancaster and discrimination against socialist employees was alleged.
-deer_dear; She's such a dear friend. The deer ate all the lettuce in the garden.
-weak_week; She is still weak after her illness. He comes to see us once a week. 
-scene_seen; The police soon arrived at the scene of the crime. He crouched down so he couldn't be seen.
-meet_meat; Maybe we'll meet again some time. I gave up eating meat a few months ago.
-mail_male; He found a mountain of mail waiting for him. Many women earn less than their male colleagues.
-short_story;This story is about a kid everyone thought was so terrific and so cool. That kid was me. I knew how to draw great pictures. I even brushed my teeth, most of the time. And I had a few friends to play with. My parents left me alone a lot. They thought I was a cool kid. But that was only on the outside. They didn't really know me. Nobody knew what I was really like on the inside, except my grandma. She wanted to know how I felt. What's the matter she asked.  And I told her everything, like how scared I was without a night-light or how awful i felt when I dropped the ball. I liked talking to grandma. She was a good listener.
+Caffaro;Some looked on jealously, like Caffaro, the most famous Genoese historian ofthe Middle ages.
+Palestine;In the short term, these measures meant little. After securing Palestine, thepersians turned to the Nile delta, taking Alexandria in 619 AD.
 polling;The important difference between the pend operation and simply polling the mailbox location is that the pending task is suspended while waiting for data to appear. Thus no CPU time is wasted for polling the mailbox.
 priority_inversion; The highest priority task relinquishes the CPU whenever it seeks to lock the semaphore guarding a critical section that is already locked by some other task.
 sempahore;The highest priority task relinquishes the CPU whenever it seeks to lock thesemaphore guarding a critical section that is already locked by some other task.When a lower-priority task blocks a higher priority one, a priority inversionis said to occur. Consider the following example, where priority inversion takesplace.
-Caffaro;Some looked on jealously, like Caffaro, the most famous Genoese historian ofthe Middle ages.
+short_story;This story is about a kid everyone thought was so terrific and so cool. That kid was me. I knew how to draw great pictures. I even brushed my teeth, most of the time. And I had a few friends to play with. My parents left me alone a lot. They thought I was a cool kid. But that was only on the outside. They didn't really know me. Nobody knew what I was really like on the inside, except my grandma. She wanted to know how I felt. What's the matter she asked.  And I told her everything, like how scared I was without a night-light or how awful i felt when I dropped the ball. I liked talking to grandma. She was a good listener.
 submissive_inferior;Presenting himself as submissive inferior the Roman ruler hailed the shah assupreme emperor. Khushraw listened carefully to what the envoys had to say,then he had them executed
-Palestine;In the short term, these measures meant little. After securing Palestine, thepersians turned to the Nile delta, taking Alexandria in 619 AD.
-canner; Can you can a can as a canner can can a can?
-fanny; Frivolously fanciful Fannie fried fresh fish furiously
-pest; A pessimistic pest exists amidst us.
-coffee; Give papa a cup of proper coffee in a copper coffee cup.
-seashells; She sells seashells by the seashore.
-wristwatches; Which witch switched the Swiss wristwatches?
+technical;The important difference between the pend operation and simply polling the mailbox location is that the pending task is suspended while waiting for data to appear. Thus no CPU time is wasted for polling the mailbox.
+deer_dear;She's such a dear friend. The deer ate all the lettuce in the garden.
+fort_fight;Just the three of you are going to be holding the fort tonight. He fought many battles with the early Labor party in Lancaster and discrimination against socialist employees was alleged.
+mail_male;He found a mountain of mail waiting for him. Many women earn less than their male colleagues.
+meet_meat;Maybe we'll meet again some time. I gave up eating meat a few months ago.
+scene_seen;The police soon arrived at the scene of the crime. He crouched down so he couldn't be seen.
+weak_week;She is still weak after her illness. He comes to see us once a week.
+History_todo_cut;Presenting himself as submissive inferior the Roman ruler hailed the shah as supreme emperor. Khushraw listened carefully to what the envoys had to say, then he had them executed. In the short term, these measures meant little. After securing Palestine, the persians turned to the Nile delta, taking Alexandria in 619 AD.
+technical_book;The important difference between the pend operation and simply polling the mailbox location is that the pending task is suspended while waiting for data to appear. Thus no CPU time is wasted for polling the mailbox.
+tongue_twisters;Can you can a can as a canner can can a can? Frivolously fanciful Fannie fried fresh fish furiously. A pessimistic pest exists amidst us. Give papa a cup of proper coffee in a copper coffee cup. She sells seashells by the seashore. Which witch switched the Swiss wrist-watches?
+canner;Can you can a can as a canner can can a can?
+coffee;Give papa a cup of proper coffee in a copper coffee cup.
+fanny;Frivolously fanciful Fannie fried fresh fish furiously
+pest;A pessimistic pest exists amidst us.
+seashells;She sells seashells by the seashore.
+wristwatches;Which witch switched the Swiss wristwatches?
