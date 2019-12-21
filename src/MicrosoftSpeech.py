@@ -6,12 +6,7 @@ import os
 import configparser
 import csv
 import time
-
 import numpy
-
-config = configparser.ConfigParser()
-config.read('../config.ini')
-
 try:
     import azure.cognitiveservices.speech as speechsdk
 except ImportError:
@@ -19,11 +14,13 @@ except ImportError:
     https://docs.microsoft.com/azure/cognitive-services/speech-service/quickstart-python for installation instructions.
     """)
     import sys
-
     sys.exit(1)
 
-# Set up the subscription info for the Speech Service:
-# Replace with your own subscription key and service region (e.g., "westus").
+
+config = configparser.ConfigParser()
+config.read('../config.ini')
+
+# Set up the subscription info for the Speech Service from the config.ini file
 KEY = config['azure']['SubscriptionKey']
 REGION = config['azure']['ServiceRegion']
 CURRENTDIR = os.path.dirname(__file__)
@@ -43,7 +40,7 @@ class SpeechToText:
         self.audio_files = self.get_wav_files_from_dir(audio_directory)
         self.transcriptions = {}
         # Example
-        # print(str(self.speech_recognize_once_from_file(audio_directory + '/Books/Caffaro_gustav.wav')))
+        print(str(self.speech_recognize_once_from_file(audio_directory + '/Books/Caffaro_gustav.wav')))
 
     def recognize_all(self):
         pass
@@ -62,14 +59,12 @@ class SpeechToText:
             # Check if entry is file or folder
             if os.path.isdir(entry_path):
                 # if the entry is a subdirectory, call again with the new directory
-                # print('Sub dir ' + str(entry_path))
                 audio_files = audio_files + self.get_wav_files_from_dir(entry_path)
             elif os.path.isfile(entry_path):
                 # Check if the file is a wav file
                 filename, file_extension = os.path.splitext(entry_path)
                 if file_extension == '.wav':
                     audio_files.append(entry_path)
-                    # print('Found wav file: ' + str(entry))
         return audio_files
 
     def load_transcriptions_into_converter(self, transcription_file, delimiter):
