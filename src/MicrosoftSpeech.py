@@ -7,6 +7,7 @@ import configparser
 import csv
 import time
 import numpy
+
 try:
     import azure.cognitiveservices.speech as speechsdk
 except ImportError:
@@ -14,8 +15,8 @@ except ImportError:
     https://docs.microsoft.com/azure/cognitive-services/speech-service/quickstart-python for installation instructions.
     """)
     import sys
-    sys.exit(1)
 
+    sys.exit(1)
 
 config = configparser.ConfigParser()
 config.read('../config.ini')
@@ -25,6 +26,12 @@ KEY = config['azure']['SubscriptionKey']
 REGION = config['azure']['ServiceRegion']
 CURRENTDIR = os.path.dirname(__file__)
 AUDIOLOCATION = os.path.join(CURRENTDIR, '..', 'resources', 'audio')
+ENDPOINTURL = "wss://{}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1" \
+              "?initialSilenceTimeoutMs={:d} "
+
+# Empty uses default
+RECOGNITIONLANGUAGE = ''
+initial_silence_timeout_ms = 15 * 1e3
 
 """
 The Speech SDK uses the following format for audio input.
@@ -36,7 +43,6 @@ WAV	    PCM	    16-bit      8 or 16 kHz     1 (mono)
 class SpeechToText:
 
     def __init__(self, audio_directory):
-        self.speech_config = speechsdk.SpeechConfig(subscription=KEY, region=REGION)
         self.audio_files = self.get_wav_files_from_dir(audio_directory)
         self.transcriptions = {}
         # Example
@@ -103,6 +109,14 @@ class SpeechToText:
                 metrics[file] = 'No transcription was found for this audio file.'
 
     def wer(self, ref, hyp, debug=False):
+        """
+        Calculate the word error rate
+        :param ref:
+        :param hyp:
+        :param debug: Log debug information. Default false
+        :return: The word error rate
+        :return: The word correct rate
+        """
         r = ref.split()
         h = hyp.split()
         # costs will holds the costs, like in the Levenshtein distance algorithm
@@ -202,16 +216,43 @@ class SpeechToText:
             if audio_file.count(transcription):
                 return self.transcriptions[transcription], transcription
 
-    def speech_recognize_once_from_file(self, file):
+    def check_recognition_result(self, result):
+        """
+        Check the result. Print the errors
+        :param result: Result
+        :return: None
+        """
+        if result.reason == speechsdk.ResultReason.RecognizedSpeech:
+            print("Recognized: {}".format(result.text))
+        elif result.reason == speechsdk.ResultReason.NoMatch:
+            print("No speech could be recognized: {}".format(result.no_match_details))
+        elif result.reason == speechsdk.ResultReason.Canceled:
+            cancellation_details = result.cancellation_details
+            print("Speech Recognition canceled: {}".format(cancellation_details.reason))
+            if cancellation_details.reason == speechsdk.CancellationReason.Error:
+                print("Error details: {}".format(cancellation_details.error_details))
+
+    def speech_recognize_once_from_file(self, file, endpoint=None, silencetimeout=None):
         """
         Performs one-shot speech recognition with input from an audio file
+        :param silencetimeout:
+        :param endpoint: End pint configuration
         :param file: Location of the file to check
         :return:
         """
+        if (endpoint is None) and (silencetimeout is not None):
+            endpoint = ENDPOINTURL.format(REGION, int(silencetimeout))
+        # Configure the recognize algorithm
+        speech_config = speechsdk.SpeechConfig(subscription=KEY,
+                                               endpoint=endpoint,
+                                               speech_recognition_language=RECOGNITIONLANGUAGE,
+                                               region=REGION)
+
+        # Configure the input data. We read from file, so only filename is needed.
         audio_config = speechsdk.audio.AudioConfig(filename=file)
         # Creates a speech recognizer using a file as audio input.
         # The default language is "en-us".
-        speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config, audio_config=audio_config)
+        speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
 
         # Starts speech recognition, and returns after a single utterance is recognized. The end of a
         # single utterance is determined by listening for silence at the end or until a maximum of 15
@@ -221,16 +262,7 @@ class SpeechToText:
         # For long-running multi-utterance recognition, use start_continuous_recognition() instead.
         result = speech_recognizer.recognize_once()
 
-        # Check the result
-        # if result.reason == speechsdk.ResultReason.RecognizedSpeech:
-        #     print("Recognized: {}".format(result.text))
-        # elif result.reason == speechsdk.ResultReason.NoMatch:
-        #     print("No speech could be recognized: {}".format(result.no_match_details))
-        # elif result.reason == speechsdk.ResultReason.Canceled:
-        #     cancellation_details = result.cancellation_details
-        #     print("Speech Recognition canceled: {}".format(cancellation_details.reason))
-        #     if cancellation_details.reason == speechsdk.CancellationReason.Error:
-        #         print("Error details: {}".format(cancellation_details.error_details))
+        # self.check_recognition_result(result)
         return result
 
 
