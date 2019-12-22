@@ -133,6 +133,9 @@ class SpeechToText:
                 start = time.time()
                 recognized = self.speech_recognize_once_from_file(file).text
                 end = time.time()
+                # For the evaluation of you application you have to use at least the following metrics: \\
+                # • Real Time Factor (RTF), Word Error Rate (WER), and Word Correct Rate (WCR) \ \
+                # • The micro and macro averages of the Recall and Precision and the F-score \ \
 
                 passed_seconds = float(end - start)
                 metrics[file]['real_time_factor'] = round((passed_seconds / len(file)), 3)
@@ -140,8 +143,11 @@ class SpeechToText:
                 metrics[file]['word_error_rate'], metrics[file]['word_recognition_rate'], metrics[file][
                     'word_correct_rate'] = self.wer(transcription[0], recognized)
 
-                metrics[file]['precision'], metrics[file]['recall'], metrics[file][
-                    'f_score'] = self.get_precision_recall_f(transcription[0], recognized)
+                metrics[file]['precision_micro'], metrics[file]['recall_micro'], metrics[file][
+                    'f_score_micro'] = self.get_precision_recall_f(transcription[0], recognized, average='micro')
+
+                metrics[file]['precision_macro'], metrics[file]['recall_macro'], metrics[file][
+                    'f_score_macro'] = self.get_precision_recall_f(transcription[0], recognized, average='macro')
 
                 print("Recognized: " + recognized + "\nTranscription: " + transcription[0])
                 print(metrics[file])
@@ -150,7 +156,7 @@ class SpeechToText:
 
         self.save_results(metrics, CSVDELIMITER)
 
-    def get_precision_recall_f(self, truth, recog):
+    def get_precision_recall_f(self, truth, recog, average=None):
         true = truth.split()
         estimate = recog.split()
         size_diff = abs(len(true) - len(estimate))
@@ -190,7 +196,7 @@ class SpeechToText:
         # where this differs from accuracy_score).
 
         # returns 0 when a division error occurs
-        precision, recall, f_score, true_sum = precision_recall_fscore_support(true, estimate, average='macro',
+        precision, recall, f_score, true_sum = precision_recall_fscore_support(true, estimate, average=average,
                                                                                zero_division=0)
 
         # Calculate the f score
