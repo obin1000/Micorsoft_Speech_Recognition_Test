@@ -207,7 +207,7 @@ class SpeechToText:
 
         # Calculate the f score
         # f = (2 * (precision * recall)) / (precision + recall)
-        return precision, recall, f_score
+        return round(precision, 3), round(recall, 3), round(f_score, 3)
 
     def wer(self, ref, hyp, debug=False):
         """
