@@ -40,19 +40,16 @@
 
 \tableofcontents
 \section{Introduction}
-Introduction, which contains a description of your application and your null \\
-This paper will discuss the correctness of the Microsoft Azure Speech Recognition algorithm. This paper will not discuss the working nor any technical aspect of the algorithm. This paper will use a test set of audio fragments, run these tests through the algorithm and use the output for calculations.
-
-
+This paper will discuss the correctness of the Microsoft Azure Speech Recognition algorithm. This paper will not discuss the working nor any technical aspect of the algorithm. This paper will use a test set of audio fragments, run these tests through the algorithm and use the output to determine the the strengths and weaknesses of the algorithm.
 
 \subsection{Main question}
-TODO: Formulate a main question
+What is the real time factor, word error rate, word correct rate, recall, precision and F-score of the Microsoft speech to text algorithm with out test set?
 
 \subsection{Hypothesis}
 The speech to text algorithm of Microsoft is one of the best tested algorithm in this field\cite{Veton}. For this reason it is expected that this algorithm will do really well. It's results should little to not differ from original transcript of the audio files in any situation.
 
 \subsection{About Microsoft Speech to Text}
-Description of the application including the technique used by the underlying framework.
+'The speech-to-text service defaults to using the Universal language model. This model was trained using Microsoft-owned data and is deployed in the cloud. It's optimal for conversational and dictation scenarios. When using speech-to-text for recognition and transcription in a unique environment, you can create and train custom acoustic, language, and pronunciation models. Customization is helpful for addressing ambient noise or industry-specific vocabulary.'\cite{Microsoft}
 
 \section{Experiment}
 Experimental set-up \\
@@ -92,6 +89,7 @@ Speech recognition applications are usually evaluated by:
 
 
 \subsection{Data}
+
 \subsection{Calculations}
     
     Word Error Rate: 
