@@ -3,6 +3,9 @@
 \usepackage{amsmath}
 % use geometry to set size to A4 and set margins around the document
 \usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{hyperref} 
+\usepackage{graphicx}
+\graphicspath{ {paper/images/} }
 
 \begin{document}
 
@@ -40,101 +43,130 @@
 
 \tableofcontents
 \section{Introduction}
-Introduction, which contains a description of your application and your null \\
-This paper will discuss the correctness of the Microsoft Azure Speech Recognition algorithm. This paper will not discuss the working nor any technical aspect of the algorithm. This paper will use a test set of audio fragments, run these tests through the algorithm and use the output for calculations.
-
-
+This paper will discuss the correctness of the Microsoft Azure Speech Recognition algorithm. This paper will not discuss the working nor any technical aspect of the algorithm. This paper will use a test set of audio fragments, run these tests through the algorithm and use the output to determine the the strengths and weaknesses of the algorithm.
 
 \subsection{Main question}
-TODO: Formulate a main question
+What is the real time factor, word error rate, word correct rate, recall, precision and F-score of the Microsoft speech to text algorithm with out test set?
 
 \subsection{Hypothesis}
 The speech to text algorithm of Microsoft is one of the best tested algorithm in this field\cite{Veton}. For this reason it is expected that this algorithm will do really well. It's results should little to not differ from original transcript of the audio files in any situation.
 
 \subsection{About Microsoft Speech to Text}
-Description of the application including the technique used by the underlying framework.
+'The speech-to-text service defaults to using the Universal language model. This model was trained using Microsoft-owned data and is deployed in the cloud. It's optimal for conversational and dictation scenarios. When using speech-to-text for recognition and transcription in a unique environment, you can create and train custom acoustic, language, and pronunciation models. Customization is helpful for addressing ambient noise or industry-specific vocabulary.'\cite{Microsoft}
 
 \section{Experiment}
-Experimental set-up \\
-Experimental setup, which describes how you conduct your experiment
+All code and resources used for this experiment can be found on the Github page: \\
+\url{https://github.com/obin1000/Micorsoft_Speech_Recognition_Test}
 
 \subsection{Resources used}
-Microsoft Azure Speech Recognition
-
-\subsection{Method}
-
-\section{Results}
-For the evaluation of you application you have to use at least the following metrics: \\
-• Real Time Factor (RTF), Word Error Rate (WER), and Word Correct Rate (WCR) \\
-• The micro and macro averages of the Recall and Precision and the F-score \\
-
-Results, which contains the data you gathered during the experiment and the
-figures and statistics you used for the interpretation of these data \\
-\\
-Speech recognition applications are usually evaluated by:
-
 \begin{itemize}
-    \item real time factor (RTF), the time needed to get result, i.e. the time of output minus the time of input. RTF depends on:
-    \begin{itemize}
-        \item used hardware (NB networks)
-        \item length of the input sentence
-        \item used vocabulary
-    \end{itemize}
-    \item word error rate (WER), the edit distance between two strings is the minimum number (or weighted sum) of insertions, deletions and substitutions required to transform one string into the other. For measuring WER you need:
-    \begin{itemize}
-        \item S = Substitutions: word is replaced
-        \item D = Deletions: word is missed out
-        \item I = Insertions: word is added
-        \item C = Corrects: word matches
-        \item N = Number of words in reference sentence
-    \end{itemize}
+    \item Microsoft Azure Speech Recognition
+    \item Python 3 numpy, sklearn
+    \item Audio test set from fellow students
 \end{itemize}
 
 
-\subsection{Data}
+\subsection{Method}
+The decision to use Python for this experiment was made because of its simple syntax and its ability to work with big numbers. A script was made which does the following:
+\begin{itemize}
+    \item Scan a directory for all audio files (ending on .wav)
+    \item Load the transcriptions from a CSV file
+    \item Match the audio files with the transcription based on file name and transcription tag
+    \item Run the audio file through the speech to text algorithm
+    \item Do calculation based on the results(Next chapter)
+    \item Save the results to the results file
+\end{itemize}
+
 \subsection{Calculations}
-    
-    Word Error Rate: 
+The following formulas were used to compare the transcription of the audio with the output of the speech to text algorithm. These are standard formulas, this means that the results can be compared with the results of other speech to text algorithms. \\
+
+    Real Time Factor: \\
+    The time it takes for the algorithm to provide a response. Lower is better.
+    \begin{center}
+    $ RTF = End Time - Start Time$ \\
+    \end{center} 
+
+    Word Error Rate (WER): \\
+    For measuring WER you need:
+    \begin{itemize}
+        \item S = Substitutions:  word is replaced
+        \item D = Deletions:  word is missed out
+        \item I = Insertions:  word is added
+        \item C = Corrects:  word matches
+        \item N = Number of words in reference sentence
+    \end{itemize}
+    This should result in a value between 0 and 1, telling you how many of the words were wrongly recognized. Lower is better.
     \begin{center}
     $ WER = \frac{S + D + I}{N}$ \\
     \end{center} 
     
-    Word Recognition Rate: 
+    Word Recognition Rate (WRR): \\
+    This is the inverse of the WER. Should result in a value between 0 and 1, telling you how many of the words were correctly recognized. Higher is better.
     \begin{center}
     $ WRR = 1 - WER = \frac{C - I}{N}$ \\
     $ NBC =N - (S + D)$ \\
     \end{center} 
     
-    Word Correct Rate: 
+    Word Correct Rate (WCR): \\
+    Should result in a value between 0 and 1, telling you how many of the words were correctly recognized. Higher is better.
     \begin{center}
     $ WCR = \frac{C}{N}$ \\
     \end{center} 
     
-    Precision: 
+    Precision: \\
+    Results in a number between 0 and 1, Answering: of all result found, how many of the are correct? Higher is better.
     \begin{center}
     $ Precision = \frac{relevant\ documents \cap retrieved\ documents}{retrieved\ documents} = \frac{|R_i \cap A_i|}{|A_i|} $ \\
     \end{center} 
     
-    Recall : 
+    Recall : \\
+    Results in a number between 0 and 1, Answering: how much of the total correct results was provided by the found result. Higher is better.
     \begin{center}
     $ Recall = \frac{relevant\ documents \cap retrieved\ documents}{relevant\ documents} = \frac{|R_i \cap A_i|}{|R_i|} $ \\
     \end{center} 
     
-    F-score:
+    F-score: \\
+    Use the precision and the recall to determine the accuracy. It is a value between 0 and 1. Higher is better.
     \begin{center}
     $ Recall = \frac{2 \times \pi_i \times \rho_i}{\pi + \rho_i} $\\
     \end{center} 
 
-\subsection{Graphs}
+
+\newpage
+\section{Results}
+The result set is pretty large, therefore unfit to be displayed in this document. Listed below is the average per calculated factor. To see the full result set, please reference the source at \url{https://docs.google.com/spreadsheets/d/1NH385ixes9ILRXGzjTgCat6tBuEqB1W68g7rxCs6agQ/edit?usp=sharing}.
+\subsection{Data}
+
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ Real time factor & 4.11 \\ 
+ Word error rate & 0.46 \\ 
+ Word recognition rate & 0.54 \\ 
+ Word correct rate & 0.57 \\ 
+ Precision micro & 0.37 \\ 
+ Recall micro & 0.37 \\ 
+ F\_score micro & 0.37 \\  
+ Precision macro & 0.40 \\  
+ Recall macro & 0.34 \\  
+ F\_score macro & 0.35 \\   
+ \hline
+\end{tabular}
+\end{center}
+
+\subsection{Remarkable}
+    'micro': Calculate metrics globally by counting the total true positives, false negatives and false positives. \\
+    'macro': Calculate metrics for each label, and find their unweighted mean. This does not take label imbalance into account. \\ \\
+    Some audiofiles sent to the Azure text to speech service are only translated partially. Because of this, some audio files seem to be translated very poorly, but this is not always the case. We have not been able to locate the reason for this issue.
 
 \section{Discussion}
-The test set that was used was made by fellow students. This has the consequence that the quality of the tests varies within the test set. For example, one of the test sentences ends, according to the provided transcript, with 'in 619 AD'. However the algorithm recognized this as 'in 6 1980'. When we listened to this audio fragment ourselves, we also thought the fragment said 'in 1980'. This means that the quality of this paper may vary, because the used test set also varies in quality.
+The test set that was used was made by fellow students. This has the consequence that the quality of the tests varies within the test set. For example, one of the test sentences ends, according to the provided transcript, with 'in 619 AD'. However the algorithm recognized this as 'in 6 1980'. When we listened to the audio fragment ourselves, we also thought the fragment said 'in 1980'. This means that the quality of our result set may vary, because the used test set also varies in quality.
 
 \section{Conclusion}
 Conclusion, which concludes your paper and states nothing more than already
 written
 
-\bibliographystyle{ieeetr} 
+\bibliographystyle{acm} 
 \bibliography{References} 
 
 \end{document}
