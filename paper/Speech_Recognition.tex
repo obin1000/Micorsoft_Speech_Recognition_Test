@@ -29,8 +29,7 @@
     
     \begin{abstract}
         \normalsize 
-        Abstract
-        TODO Add abstract here
+        This paper discusses the correctness and speed of the Microsoft Azure Speech to Text algorithm. This paper does not discuss the working nor any technical aspect of the algorithm. A script made in python is used to call the algorithm and process the results. The outputs of the processing are the real time factor, word error rate, word correct rate, recall, precision and F-score, which could be used to compare this algorithm with other algorithms in the same field. At the start of the experiment expectation were high for the algorithm, but results turned out a lot worse, presumably because of some bugs in the test set. More information about the test set that was used and the code to parse the test set can be found on the GitHub page: \url{https://github.com/obin1000/Micorsoft_Speech_Recognition_Test}
         \vspace*{0.3cm}
     \end{abstract}
     
@@ -46,7 +45,7 @@
 This paper will discuss the correctness and speed of the Microsoft Azure Speech to Text algorithm. This paper will not discuss the working nor any technical aspect of the algorithm. This paper will use a test set of audio fragments, run these tests through the algorithm and use the output to determine the strengths and weaknesses of the algorithm and calculate some values which can be used to compare the algorithm with other algorithms in the same field.
 
 \subsection{Main question}
-What is the real time factor, word error rate, word correct rate, recall, precision and F-score of the Microsoft speech to text algorithm with our test set?
+What are the strengths and weaknesses (the real time factor, word error rate, word correct rate, recall, precision and F-score) of the Microsoft speech to text algorithm with our test set?
 
 \subsection{Hypothesis}
 The speech to text algorithm of Microsoft is one of the best tested algorithm in this field\cite{Veton}. For this reason it is expected that this algorithm will do really well. It's results should little to not differ from original transcript of the audio files in any situation. \\ \\
@@ -56,7 +55,7 @@ Because of previous experiences with speech to text services, e.g. Siri \cite{Si
 'The speech-to-text service defaults to using the Universal language model. This model was trained using Microsoft-owned data and is deployed in the cloud. It's optimal for conversational and dictation scenarios. When using speech-to-text for recognition and transcription in a unique environment, you can create and train custom acoustic, language, and pronunciation models. Customization is helpful for addressing ambient noise or industry-specific vocabulary.'\cite{Microsoft}
 
 \section{Experiment}
-All code and resources used for this experiment can be found on the Github page: \\
+All code and resources used for this experiment can be found on the GitHub page: \\
 \url{https://github.com/obin1000/Micorsoft_Speech_Recognition_Test}
 
 \subsection{Resources used}
@@ -133,8 +132,8 @@ The following formulas were used to compare the transcription of the audio with 
     \end{center} 
 
 
-\section{Results}
-The result set is pretty large, therefore unfit to be displayed in this document. Listed below is the average per calculated factor. To see the full result set, please reference the source at \url{https://docs.google.com/spreadsheets/d/1NH385ixes9ILRXGzjTgCat6tBuEqB1W68g7rxCs6agQ/edit?usp=sharing}.
+\section{Results} \label{Results}
+The result set is pretty large, therefore unfit to be displayed in this document. Listed below is the average per calculated factor. To see the full result set, please reference the result set\cite{ResultSet}.
 \subsection{Data}
 
 \begin{center}
@@ -163,12 +162,37 @@ The result set is pretty large, therefore unfit to be displayed in this document
     
 \section{Discussion}
 The test set that was used was made by fellow students. This has the consequence that the quality of the tests varies within the test set. For example, one of the test sentences ends, according to the provided transcript, with 'in 619 AD'. However the algorithm recognized this as 'in 6 1980'. When we listened to the audio fragment ourselves, we also thought the fragment said 'in 1980'. This means that the quality of our result set may vary, because the used test set also varies in quality. \\ \\
-Some audio files sent to the Azure text to speech service are only translated partially. Because of this, some audio files seem to be translated very poorly, but this is not always the case. We have not been able to locate the reason for this issue. According to microsoft\cite{Accuracyt2s} a WER of ~20\% is acceptable, however our WER at this very moment is 46\%. The main reason for this is files being translated only partially.
+Some audio files sent to the Azure text to speech service are only translated partially. Because of this, some audio files seem to be translated very poorly, but this is not always the case. We have not been able to locate the reason for this issue. According to microsoft\cite{MicrosoftAzure} a WER of ~20\% is acceptable, however our WER at this moment is 46\%. The main reason for this is files being translated only partially.
 
 \section{Conclusion}
+The main question was:
+\begin{center}
+    "What are the strengths and weaknesses (the real time factor, word error rate, word correct rate, recall, precision and F-score) of the Microsoft speech to text algorithm with our test set?" \\
+\end{center}
+As provided in chapter \ref{Results}, the Python script was able to generate the strengths and weaknesses of the algorithm:
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ Real time factor & 0.07 \\ 
+ Word error rate & 0.46 \\ 
+ Word recognition rate & 0.54 \\ 
+ Word correct rate & 0.57 \\ 
+ Precision micro & 0.37 \\ 
+ Recall micro & 0.37 \\ 
+ F\_score micro & 0.37 \\  
+ Precision macro & 0.40 \\  
+ Recall macro & 0.34 \\  
+ F\_score macro & 0.35 \\   
+ \hline
+\end{tabular}
+\end{center}
 
+As stated in the hypothesis, Microsoft Azure's speech to text algorithm is one of the best tested algorithms. We expected the output of the algorithm to be near the same of the inserted audio file, but experienced this is nowhere near what we initially expected. Later on in our research we looked on the website of Microsoft, and found that they find a WER of ~20\% acceptable. Our WER at this moment is 46\%, so far past acceptable.\\
 
-\bibliographystyle{acm} 
+This far from the expect value is very remarkable. This means something must be wrong. Our possibility is bugs in the provided test set, because of the difference in the amount of words in the provided transcriptions and the generated transcript from the algorithm. \\
+Another possibility is bugs in the Python script, which is unlikely, because the code is recycled from other papers and works with most of the sentences.
+
+\bibliographystyle{IEEEtran} 
 \bibliography{References} 
 
 \end{document}
