@@ -7,6 +7,7 @@ import configparser
 import csv
 import time
 import numpy
+from sklearn.metrics import precision_recall_fscore_support
 
 try:
     import azure.cognitiveservices.speech as speechsdk
@@ -121,7 +122,6 @@ class SpeechToText:
 
     def calculate_metrics(self):
         metrics = {}
-
         for file in self.audio_files:
 
             transcription = self.retrieve_matching_transcription(file)
@@ -137,14 +137,52 @@ class SpeechToText:
                 passed_seconds = float(end - start)
                 metrics[file]['real_time_factor'] = round((passed_seconds / len(file)), 3)
 
-                metrics[file]['word_error_rate'], metrics[file]['word_correct_rate'] = self.wer(transcription[0],
-                                                                                                recognized)
+                metrics[file]['word_error_rate'], metrics[file]['word_recognition_rate'], metrics[file][
+                    'word_correct_rate'] = self.wer(transcription[0], recognized)
+
+                metrics[file]['precision'], metrics[file]['recall'], metrics[file][
+                    'f_score'] = self.get_precision_recall_f(transcription[0], recognized)
+
                 print("Recognized: " + recognized + "\nTranscription: " + transcription[0])
                 print(metrics[file])
             else:
                 metrics[file] = 'No transcription was found for this audio file.'
 
         self.save_results(metrics, CSVDELIMITER)
+
+    def get_precision_recall_f(self, truth, recog):
+        true = truth.split()
+        estimate = recog.split()
+        # Sci learn to calculate the values
+        # Average can have the following values:
+        # None :
+        # The scores for each class are returned.
+        #
+        # 'binary':
+        # Only report results for the class specified by pos_label. This is applicable only if targets (y_{true,pred})
+        # are binary.
+        #
+        # 'micro':
+        # Calculate metrics globally by counting the total true positives, false negatives and false positives.
+        #
+        # 'macro':
+        # Calculate metrics for each label, and find their unweighted mean. This does not take label imbalance into
+        # account.
+        #
+        # 'weighted':
+        # Calculate metrics for each label, and find their average weighted by support (the number of true instances
+        # for each label). This alters ‘macro’ to account for label imbalance; it can result in an F-score that is not
+        # between precision and recall.
+        #
+        # 'samples':
+        # Calculate metrics for each instance, and find their average (only meaningful for multilabel classification
+        # where this differs from accuracy_score).
+
+        precision, recall, f_score, true_sum = precision_recall_fscore_support(true, estimate, average='micro')
+
+        # Calculate the f score
+        # f = (2 * (precision * recall)) / (precision + recall)
+        return precision, recall, f_score
 
     def wer(self, ref, hyp, debug=False):
         """
@@ -246,8 +284,9 @@ class SpeechToText:
             return (numSub + numDel + numIns) / (float)(len(r))
 
         wer = round((numSub + numDel + numIns) / (float)(len(r)), 3)
+        wrr = round((1.0 - wer), 3)
         wcr = round((numCor / len(r)), 3)
-        return wer, wcr
+        return wer, wrr, wcr
 
     def retrieve_matching_transcription(self, audio_file):
         for transcription in self.transcriptions:
