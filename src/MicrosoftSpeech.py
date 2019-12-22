@@ -123,7 +123,7 @@ class SpeechToText:
     def calculate_metrics(self):
         metrics = {}
         for file in self.audio_files:
-
+            
             transcription = self.retrieve_matching_transcription(file)
             metrics[file] = {}
 
@@ -141,9 +141,9 @@ class SpeechToText:
                 metrics[file]['recognized'] = recognized
 
                 passed_seconds = float(end - start)
-                # Real Time Factor (RTF)RTF is the time needed to get result,
-                # i.e.  the time of output minus the time of input.
-                metrics[file]['real_time_factor'] = round(passed_seconds, 3)
+                # Real Time Factor (RTF)RTF is the time needed to get result, divided by the total length
+                # of the recognized file.
+                metrics[file]['real_time_factor'] = round(passed_seconds / len(metrics[file]['recognized']), 3)
 
                 metrics[file]['word_error_rate'], metrics[file]['word_recognition_rate'], metrics[file][
                     'word_correct_rate'] = self.wer(transcription[0], recognized)
