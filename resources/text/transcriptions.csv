@@ -1,6 +1,6 @@
 File;Transcript
-Caffaro;Some looked on jealously, like Caffaro, the most famous Genoese historian ofthe Middle ages.
-Palestine;In the short term, these measures meant little. After securing Palestine, thepersians turned to the Nile delta, taking Alexandria in 619 AD.
+Caffaro;Some looked on jealously, like Caffaro, the most famous Genoese historian of the Middle ages.
+Palestine;In the short term, these measures meant little. After securing Palestine, the persians turned to the Nile delta, taking Alexandria in 619 AD.
 polling;The important difference between the pend operation and simply polling the mailbox location is that the pending task is suspended while waiting for data to appear. Thus no CPU time is wasted for polling the mailbox.
 priority_inversion; The highest priority task relinquishes the CPU whenever it seeks to lock the semaphore guarding a critical section that is already locked by some other task.
 semaphore;The highest priority task relinquishes the CPU whenever it seeks to lock the semaphore guarding a critical section that is already locked by some other task.When a lower-priority task blocks a higher priority one, a priority inversion is said to occur. Consider the following example, where priority inversion takes place.
