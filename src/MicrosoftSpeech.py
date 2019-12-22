@@ -129,6 +129,7 @@ class SpeechToText:
 
             if transcription:
                 metrics[file]['transcription_used'] = transcription[1]
+                metrics[file]['transcription'] = transcription[0]
 
                 start = time.time()
                 recognized = self.speech_recognize_once_from_file(file).text
@@ -137,8 +138,12 @@ class SpeechToText:
                 # • Real Time Factor (RTF), Word Error Rate (WER), and Word Correct Rate (WCR) \ \
                 # • The micro and macro averages of the Recall and Precision and the F-score \ \
 
+                metrics[file]['recognized'] = recognized
+
                 passed_seconds = float(end - start)
-                metrics[file]['real_time_factor'] = round((passed_seconds / len(file)), 3)
+                # Real Time Factor (RTF)RTF is the time needed to get result,
+                # i.e.  the time of output minus the time of input.
+                metrics[file]['real_time_factor'] = round(passed_seconds, 3)
 
                 metrics[file]['word_error_rate'], metrics[file]['word_recognition_rate'], metrics[file][
                     'word_correct_rate'] = self.wer(transcription[0], recognized)
@@ -157,8 +162,9 @@ class SpeechToText:
         self.save_results(metrics, CSVDELIMITER)
 
     def get_precision_recall_f(self, truth, recog, average=None):
-        true = truth.split()
-        estimate = recog.split()
+        # Convert string to char array
+        true = list(truth)
+        estimate = list(recog)
         size_diff = abs(len(true) - len(estimate))
         # Make both lists the same size by adding empty strings
         if size_diff:
