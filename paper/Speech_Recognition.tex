@@ -43,13 +43,14 @@
 
 \tableofcontents
 \section{Introduction}
-This paper will discuss the correctness of the Microsoft Azure Speech Recognition algorithm. This paper will not discuss the working nor any technical aspect of the algorithm. This paper will use a test set of audio fragments, run these tests through the algorithm and use the output to determine the the strengths and weaknesses of the algorithm.
+This paper will discuss the correctness and speed of the Microsoft Azure Speech to Text algorithm. This paper will not discuss the working nor any technical aspect of the algorithm. This paper will use a test set of audio fragments, run these tests through the algorithm and use the output to determine the strengths and weaknesses of the algorithm and calculate some values which can be used to compare the algorithm with other algorithms in the same field.
 
 \subsection{Main question}
-What is the real time factor, word error rate, word correct rate, recall, precision and F-score of the Microsoft speech to text algorithm with out test set?
+What is the real time factor, word error rate, word correct rate, recall, precision and F-score of the Microsoft speech to text algorithm with our test set?
 
 \subsection{Hypothesis}
-The speech to text algorithm of Microsoft is one of the best tested algorithm in this field\cite{Veton}. For this reason it is expected that this algorithm will do really well. It's results should little to not differ from original transcript of the audio files in any situation.
+The speech to text algorithm of Microsoft is one of the best tested algorithm in this field\cite{Veton}. For this reason it is expected that this algorithm will do really well. It's results should little to not differ from original transcript of the audio files in any situation. \\ \\
+Because of previous experiences with speech to text services, e.g. Siri \cite{Siri}, we expect the real time factor to be under one second for one sentence audio files.
 
 \subsection{About Microsoft Speech to Text}
 'The speech-to-text service defaults to using the Universal language model. This model was trained using Microsoft-owned data and is deployed in the cloud. It's optimal for conversational and dictation scenarios. When using speech-to-text for recognition and transcription in a unique environment, you can create and train custom acoustic, language, and pronunciation models. Customization is helpful for addressing ambient noise or industry-specific vocabulary.'\cite{Microsoft}
@@ -83,7 +84,7 @@ The following formulas were used to compare the transcription of the audio with 
     Real Time Factor: \\
     The time it takes for the algorithm to provide a response. Lower is better.
     \begin{center}
-    $ RTF = End Time - Start Time$ \\
+    $ RTF = Amount of recognized characters / time$ \\
     \end{center} 
 
     Word Error Rate (WER): \\
@@ -132,7 +133,6 @@ The following formulas were used to compare the transcription of the audio with 
     \end{center} 
 
 
-\newpage
 \section{Results}
 The result set is pretty large, therefore unfit to be displayed in this document. Listed below is the average per calculated factor. To see the full result set, please reference the source at \url{https://docs.google.com/spreadsheets/d/1NH385ixes9ILRXGzjTgCat6tBuEqB1W68g7rxCs6agQ/edit?usp=sharing}.
 \subsection{Data}
@@ -140,7 +140,7 @@ The result set is pretty large, therefore unfit to be displayed in this document
 \begin{center}
 \begin{tabular}{ |c|c| } 
  \hline
- Real time factor & 4.11 \\ 
+ Real time factor & 0.07 \\ 
  Word error rate & 0.46 \\ 
  Word recognition rate & 0.54 \\ 
  Word correct rate & 0.57 \\ 
@@ -157,14 +157,16 @@ The result set is pretty large, therefore unfit to be displayed in this document
 \subsection{Remarkable}
     'micro': Calculate metrics globally by counting the total true positives, false negatives and false positives. \\
     'macro': Calculate metrics for each label, and find their unweighted mean. This does not take label imbalance into account. \\ \\
-    Some audiofiles sent to the Azure text to speech service are only translated partially. Because of this, some audio files seem to be translated very poorly, but this is not always the case. We have not been able to locate the reason for this issue.
-
+    The average real time factor is 0.07. This means on average it takes 0.07 seconds to recognize a single character. The audio file "She's such a dear friend." took 2.95 seconds to recognize (0.118 RTF), this is way slower than we expected in the hypothesis. Although we see a correlation between long and short audio files - long audio files have a faster real time factor - we did not expect it to be this slow. An option to fasten up the proces is to make use of Azure's continuous flow. This rules out the need of making a new connection for every single file and thus should speed up the process. \\ \\
+    The correctness is good, but not as good as expected in the hypothesis. This could be caused by the bad transcription of the test set. 
+    Another cause could be some corrupt audio files in the test set. This can be seen in the number of words found in the transcription compared to the number of words found in the generated transcription. This difference is sometime 30 words in the transcript versus 6 in the generated transcript. More than half the audio is sometimes missing, which will of course change the average drastically. 
+    
 \section{Discussion}
-The test set that was used was made by fellow students. This has the consequence that the quality of the tests varies within the test set. For example, one of the test sentences ends, according to the provided transcript, with 'in 619 AD'. However the algorithm recognized this as 'in 6 1980'. When we listened to the audio fragment ourselves, we also thought the fragment said 'in 1980'. This means that the quality of our result set may vary, because the used test set also varies in quality.
+The test set that was used was made by fellow students. This has the consequence that the quality of the tests varies within the test set. For example, one of the test sentences ends, according to the provided transcript, with 'in 619 AD'. However the algorithm recognized this as 'in 6 1980'. When we listened to the audio fragment ourselves, we also thought the fragment said 'in 1980'. This means that the quality of our result set may vary, because the used test set also varies in quality. \\ \\
+Some audio files sent to the Azure text to speech service are only translated partially. Because of this, some audio files seem to be translated very poorly, but this is not always the case. We have not been able to locate the reason for this issue. According to microsoft\cite{Accuracyt2s} a WER of ~20\% is acceptable, however our WER at this very moment is 46\%. The main reason for this is files being translated only partially.
 
 \section{Conclusion}
-Conclusion, which concludes your paper and states nothing more than already
-written
+
 
 \bibliographystyle{acm} 
 \bibliography{References} 
