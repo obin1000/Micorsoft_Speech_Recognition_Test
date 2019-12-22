@@ -153,6 +153,17 @@ class SpeechToText:
     def get_precision_recall_f(self, truth, recog):
         true = truth.split()
         estimate = recog.split()
+        size_diff = abs(len(true)-len(estimate))
+        # Make both lists the same size by adding empty strings
+        if size_diff:
+            print('Difference in size too big: ' + str(len(true)) + ' vs ' + str(len(estimate)))
+            if len(true) > len(estimate):
+                for i in range(size_diff):
+                    estimate.append('')
+            else:
+                for i in range(size_diff):
+                    true.append('')
+        print('Sizes: ' + str(len(true)) + ' vs ' + str(len(estimate)))
         # Sci learn to calculate the values
         # Average can have the following values:
         # None :
@@ -178,7 +189,7 @@ class SpeechToText:
         # Calculate metrics for each instance, and find their average (only meaningful for multilabel classification
         # where this differs from accuracy_score).
 
-        precision, recall, f_score, true_sum = precision_recall_fscore_support(true, estimate, average='micro')
+        precision, recall, f_score, true_sum = precision_recall_fscore_support(true, estimate, average='macro')
 
         # Calculate the f score
         # f = (2 * (precision * recall)) / (precision + recall)
