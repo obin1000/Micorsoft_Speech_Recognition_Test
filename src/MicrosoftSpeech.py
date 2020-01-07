@@ -51,8 +51,6 @@ class SpeechToText:
     def __init__(self, audio_directory):
         self.audio_files = self.get_wav_files_from_dir(audio_directory)
         self.transcriptions = {}
-        # Example
-        print(str(self.speech_recognize_once_from_file(audio_directory + '/Books/Caffaro_gustav.wav')))
 
     def recognize_all(self):
         pass
@@ -130,6 +128,7 @@ class SpeechToText:
             if transcription:
                 metrics[file]['transcription_used'] = transcription[1]
                 metrics[file]['transcription'] = transcription[0]
+                print(file)
 
                 start = time.time()
                 recognized = self.speech_recognize_once_from_file(file).text
@@ -355,6 +354,7 @@ class SpeechToText:
         audio_config = speechsdk.audio.AudioConfig(filename=file)
         # Creates a speech recognizer using a file as audio input.
         # The default language is "en-us".
+        print(file)
         speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
 
         # Starts speech recognition, and returns after a single utterance is recognized. The end of a
